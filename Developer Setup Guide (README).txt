@@ -92,6 +92,7 @@ Create a `.env.local` (or `.env`) file inside `CDNC-frontend/` and define:
 
 ```bash
 VITE_API_URL=http://localhost:5001/api
+NEXT_PUBLIC_ADMIN_PASSWORD=admin123 # change for non-dev
 ```
 
 If omitted, the app automatically falls back to the same default value used in `src/lib/api.ts` so the local backend is detected automatically.【F:CDNC-frontend/src/lib/api.ts†L1-L21】
@@ -124,6 +125,10 @@ If omitted, the app automatically falls back to the same default value used in `
 * Routing and providers live in `src/App.tsx`, including React Query, router configuration, toasters, and the accessibility wrapper.【F:CDNC-frontend/src/App.tsx†L1-L38】
 * API clients (`src/lib/api.ts`, `src/lib/auth.ts`, `src/lib/members.ts`) consolidate axios usage and make swapping environments easier.【F:CDNC-frontend/src/lib/auth.ts†L1-L22】【F:CDNC-frontend/src/lib/members.ts†L1-L17】
 * Page components under `src/pages/` (e.g., `SendLetter.tsx`, `JoinCommunity.tsx`) encapsulate user flows while relying on shared UI primitives and hooks.
+* Admin resources flow:
+  * `/login` authenticates the hardcoded admin user `admin@cdnc.local` with password from `NEXT_PUBLIC_ADMIN_PASSWORD` (fallback `admin123`).【F:CDNC-frontend/src/lib/adminAuth.ts†L1-L21】【F:CDNC-frontend/src/pages/Login.tsx†L1-L81】
+  * `/admin/resources` is protected by a route guard and edits the same data shown on `/resources`. All data is persisted to `localStorage` under the key `cdnc-resources`; the initial dataset lives in `src/lib/resourcesData.ts`.【F:CDNC-frontend/src/components/AdminRoute.tsx†L1-L28】【F:CDNC-frontend/src/hooks/useResourcesStore.tsx†L1-L51】
+  * The public `/resources` page reads from this store, so admin CRUD changes are reflected immediately without a rebuild.【F:CDNC-frontend/src/pages/Resources.tsx†L1-L220】
 
 ## Full-Stack Workflow
 

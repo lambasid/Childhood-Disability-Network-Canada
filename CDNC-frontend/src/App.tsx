@@ -14,6 +14,10 @@ import FindMP from "./pages/FindMP";
 import AdvocacyHub from "./pages/AdvocacyHub";
 import Resources from "./pages/Resources";
 import NotFound from "./pages/NotFound";
+import Login from "./pages/Login";
+import AdminResources from "./pages/AdminResources";
+import { ProtectedAdminRoute } from "./components/AdminRoute";
+import { ResourcesProvider } from "./hooks/useResourcesStore";
 import { AccessibilityProvider } from "./components/Common/AccessibilityProvider";
 
 const queryClient = new QueryClient();
@@ -24,19 +28,30 @@ const App = () => (
       <AccessibilityProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Index />} />
-            <Route path="/join-community" element={<JoinCommunity />} />
-            <Route path="/send-letter" element={<SendLetter />} />
-            <Route path="/sign-in" element={<SignIn />} />
-            <Route path="/sign-up" element={<SignUp />} />
-            <Route path="/find-mp" element={<FindMP />} />
-            <Route path="/advocacy" element={<AdvocacyHub />} />
-            <Route path="/resources" element={<Resources />} />
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+        <ResourcesProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/join-community" element={<JoinCommunity />} />
+              <Route path="/send-letter" element={<SendLetter />} />
+              <Route path="/sign-in" element={<SignIn />} />
+              <Route path="/sign-up" element={<SignUp />} />
+              <Route path="/find-mp" element={<FindMP />} />
+              <Route path="/advocacy" element={<AdvocacyHub />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/login" element={<Login />} />
+              <Route
+                path="/admin/resources"
+                element={
+                  <ProtectedAdminRoute>
+                    <AdminResources />
+                  </ProtectedAdminRoute>
+                }
+              />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </BrowserRouter>
+        </ResourcesProvider>
       </AccessibilityProvider>
     </TooltipProvider>
   </QueryClientProvider>
