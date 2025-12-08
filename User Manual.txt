@@ -68,15 +68,22 @@ This guide walks caregivers, supporters, and advocates through the core features
 
 1. Visit **Resources**.
 2. Use the tab list to switch between caregiving guides, financial support, and community resources. The active tab persists when you follow hash links (e.g., `/resources#financial`).【F:CDNC-frontend/src/pages/Resources.tsx†L1-L52】
-3. Enter keywords in the search box to filter visible cards instantly.【F:CDNC-frontend/src/pages/Resources.tsx†L53-L120】
-4. Scroll to Knowledge Hub FAQs for deep dives into caregiver topics, curated inside the same page layout.【F:CDNC-frontend/src/pages/Resources.tsx†L121-L200】
+3. Enter keywords in the search box to filter visible cards instantly across all tabs.【F:CDNC-frontend/src/pages/Resources.tsx†L53-L120】
+4. National resources are grouped by category; provincial resources are grouped by province, all fed by the same dataset the admin edits.
 
-## 10. Accessibility and Notifications
+## 10. Admin Resource Management (hidden)
+
+* There are no public links; type `/login` manually to access the admin portal.
+* Use the hardcoded email `admin@cdnc.local` and the password configured by the site owner (fallback `admin123` if not set in the environment).【F:CDNC-frontend/src/lib/adminAuth.ts†L1-L21】
+* On successful login you are redirected to `/admin/resources`, where you can add, edit, or delete resource entries. Changes save instantly and update the public Resources page.
+* Use the Logout button to clear the admin token and return to `/login`. All data is stored in your browser under the key `cdnc-resources`.
+
+## 11. Accessibility and Notifications
 
 * Keyboard navigation enhancements automatically ensure focusable elements expose `tabIndex` and highlight focus states for users who rely on keyboards.【F:CDNC-frontend/src/components/Common/AccessibilityProvider.tsx†L1-L46】【F:CDNC-frontend/src/hooks/use-keyboard-accessibility.tsx†L1-L90】
 * Toast notifications and alerts confirm actions (success, validation errors, or network issues) across the application.【F:CDNC-frontend/src/App.tsx†L1-L38】【F:CDNC-frontend/src/pages/JoinCommunity.tsx†L83-L117】
 
-## 11. Troubleshooting Tips
+## 12. Troubleshooting Tips
 
 | Issue | Suggested Fix |
 | --- | --- |
